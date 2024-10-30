@@ -8,20 +8,28 @@ pipeline {
             }
         }
 
-        stage('Setup and Test') {
+        stage('Build') {
             steps {
+                echo 'starting build process'
                 bat 'python -m pip install --upgrade pip'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'test started'
                 bat 'python -m unittest test_app.py'
             }
         }
     }
 
     post {
-        success {
-            echo 'Pipeline succeeded!'
-        }
-        failure {
-            echo 'Pipeline failed!'
+        always {
+            mail to: '',
+                 subject: "Jenkins Build Notification: ${currentBuild.fullDisplayName}",
+                 body: """\
+                 Build Status: ${currentBuild.currentResult}
+                 """
         }
     }
 }
