@@ -17,9 +17,6 @@ pipeline {
     }
 
     post {
-        always {
-            archiveArtifacts artifacts: '**/test-reports/*.xml', allowEmptyArchive: true
-        }
         success {
             echo 'Pipeline succeeded!'
         }
